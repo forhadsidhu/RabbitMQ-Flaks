@@ -1,0 +1,20 @@
+version: '3'
+services:
+  producer:
+    build: ./producer
+    ports:
+      - "8000:8000"
+    depends_on:
+      - queue
+    environment:
+      RABBITMQ_HOST: queue
+  consumer:
+    build: ./consumer
+    depends_on:
+      - queue
+    environment:
+      RABBITMQ_HOST: queue
+  queue:
+    image: rabbitmq:3.9.9-management
+    ports:
+      - "15672:15672"
